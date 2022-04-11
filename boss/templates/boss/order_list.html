@@ -17,7 +17,11 @@
         </td>
         <td style="border: 1px solid black;">
             {% if order.estimated_time == -1 %}
-                미정
+                <form method="post" action="{% url 'timeinput' %}">
+                    <input type="number" name="estimated_time">
+                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                    <input type="submit" value="예상시간 입력 ">
+                </form>
             {% else %}
                 {{order.estimated_time}}분
             {% endif %}

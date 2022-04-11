@@ -50,12 +50,10 @@ def order(request):
         order_date = timezone.now()
         shop = request.POST['shop']
         food_list = request.POST.getlist('menu')
-        shop_item = Shop.objects.get(pk=shop)
+        shop_item = Shop.objects.get(pk=int(shop))
         shop_item.order_set.create(address=address, order_date=order_date, shop=int(shop))
-
-        order_item = Order.objects.get(pk = int(shop_item.order_set.lastest('id').id))
+        print(int(shop))
+        order_item = Order.objects.get(pk = int(shop_item.order_set.latest('id').id))
         for food in food_list:
             order_item.orderfood_set.create(food_name=food)
-
-
-        return HttpResponse(status=200)
+        return render(request, 'order/success.html')
